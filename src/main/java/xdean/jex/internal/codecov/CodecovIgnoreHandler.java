@@ -84,6 +84,7 @@ public class CodecovIgnoreHandler {
     int generateLine = lines.indexOf(GENERATED);
     int endLine = lines.indexOf(END);
     if (ignoreLine == -1) {
+      lines.add("");
       lines.add(IGNORE);
       lines.addAll(ignoreLines);
     } else {
