@@ -11,7 +11,6 @@ import java.util.stream.StreamSupport;
 
 import io.reactivex.Observable;
 
-@CodecovIgnore
 public class CodecovIgnoreHandler {
   private static final String END = "#end";
   private static final String IGNORE = "ignore:";
