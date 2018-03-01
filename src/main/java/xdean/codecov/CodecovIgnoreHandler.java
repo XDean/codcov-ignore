@@ -1,4 +1,4 @@
-package xdean.jex.internal.codecov;
+package xdean.codecov;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

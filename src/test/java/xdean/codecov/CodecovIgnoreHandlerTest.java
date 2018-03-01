@@ -1,4 +1,4 @@
-package xdean.jex.internal.codecov;
+package xdean.codecov;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,6 +9,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.junit.Test;
+
+import xdean.codecov.CodecovIgnoreHandler;
 
 public class CodecovIgnoreHandlerTest {
   private static final Path RESOURCES = Paths.get("src", "test", "resources");
