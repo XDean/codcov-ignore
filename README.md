@@ -1,2 +1,2 @@
-# codcov-ignore
+# codecov-ignore
 Codecov ignore auto updater
