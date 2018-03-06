@@ -1,6 +1,6 @@
 package xdean.codecov;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,7 +20,7 @@ import com.google.testing.compile.JavaFileObjects;
 
 public class CodecovTest {
   private static final Path RESOURCES = Paths.get("src", "test", "resources");
-  private static final JavaFileObject GOLDEN = getSource("CodecovTest.java");
+  private static final JavaFileObject GOLDEN = getSource("CodecovTestClass.java");
 
   private static JavaFileObject getSource(String source) {
     return JavaFileObjects.forResource(CodecovTest.class.getResource(source));
@@ -36,6 +36,27 @@ public class CodecovTest {
         .compile(GOLDEN);
     CompilationSubject.assertThat(compile).succeededWithoutWarnings();
     assertFileEqual(expect, copy);
+  }
+
+  @Test
+  public void testHasMarker() throws Exception {
+    Path copy = getOriginFile("testHasMarker");
+    Path expect = getExpectFile("testHasMarker");
+    Compilation compile = Compiler.javac()
+        .withProcessors(new CodecovProcessor())
+        .withOptions("-Acodecov.file=" + copy.toString())
+        .compile(GOLDEN);
+    CompilationSubject.assertThat(compile).succeededWithoutWarnings();
+    assertFileEqual(expect, copy);
+  }
+
+  @Test
+  public void testNotExist() throws Exception {
+    Compilation compile = Compiler.javac()
+        .withProcessors(new CodecovProcessor())
+        .withOptions("-Acodecov.file=no_such_file")
+        .compile(GOLDEN);
+    CompilationSubject.assertThat(compile).hadWarningCount(1);
   }
 
   public static Path getOriginFile(String name) throws IOException {
