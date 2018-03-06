@@ -39,6 +39,18 @@ public class CodecovTest {
   }
 
   @Test
+  public void testHasIgnore() throws Exception {
+    Path copy = getOriginFile("testHasIgnore");
+    Path expect = getExpectFile("testHasIgnore");
+    Compilation compile = Compiler.javac()
+        .withProcessors(new CodecovProcessor())
+        .withOptions("-Acodecov.file=" + copy.toString())
+        .compile(GOLDEN);
+    CompilationSubject.assertThat(compile).succeededWithoutWarnings();
+    assertFileEqual(expect, copy);
+  }
+
+  @Test
   public void testHasMarker() throws Exception {
     Path copy = getOriginFile("testHasMarker");
     Path expect = getExpectFile("testHasMarker");
@@ -69,6 +81,16 @@ public class CodecovTest {
         .compile(GOLDEN, getSource("AnotherOne.java"));
     CompilationSubject.assertThat(compile).succeededWithoutWarnings();
     assertFileEqual(expect, copy);
+  }
+
+  @Test
+  public void testNotMatch() throws Exception {
+    Path copy = getOriginFile("testNotMatch");
+    Compilation compile = Compiler.javac()
+        .withProcessors(new CodecovProcessor())
+        .withOptions("-Acodecov.file=" + copy.toString())
+        .compile(GOLDEN);
+    CompilationSubject.assertThat(compile).hadErrorCount(1);
   }
 
   public static Path getOriginFile(String name) throws IOException {
