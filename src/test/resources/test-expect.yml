@@ -27,5 +27,5 @@ comment:
 
 ignore:
 #generated
-  - "src/test/java/xdean/jex/internal/codecov/TestClass.java"
+  - "src/main/java/xdean/codecov/CodecovTest.java"
 #end
