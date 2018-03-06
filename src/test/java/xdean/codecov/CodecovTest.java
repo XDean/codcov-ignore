@@ -59,6 +59,18 @@ public class CodecovTest {
     CompilationSubject.assertThat(compile).hadWarningCount(1);
   }
 
+  @Test
+  public void testOrder() throws Exception {
+    Path copy = getOriginFile("testOrder");
+    Path expect = getExpectFile("testOrder");
+    Compilation compile = Compiler.javac()
+        .withProcessors(new CodecovProcessor())
+        .withOptions("-Acodecov.file=" + copy.toString())
+        .compile(GOLDEN, getSource("AnotherOne.java"));
+    CompilationSubject.assertThat(compile).succeededWithoutWarnings();
+    assertFileEqual(expect, copy);
+  }
+
   public static Path getOriginFile(String name) throws IOException {
     return Files.copy(RESOURCES.resolve(name + ".yml"), Files.createTempFile("codecov", ".yml"),
         StandardCopyOption.REPLACE_EXISTING);
