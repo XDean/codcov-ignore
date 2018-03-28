@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.XDean</groupId>
   <artifactId>codecov-ignore</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <name>codecov-ignore</name>
   <description>Codecov ignore auto updater</description>
   <url>https://github.com/XDean/codecov-ignore</url>
