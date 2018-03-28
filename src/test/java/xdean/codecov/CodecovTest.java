@@ -1,6 +1,6 @@
 package xdean.codecov;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -91,6 +91,18 @@ public class CodecovTest {
         .withOptions("-Acodecov.file=" + copy.toString())
         .compile(GOLDEN);
     CompilationSubject.assertThat(compile).hadErrorCount(1);
+  }
+
+  @Test
+  public void testPackage() throws Exception {
+    Path copy = getOriginFile("testPackage");
+    Path expect = getExpectFile("testPackage");
+    Compilation compile = Compiler.javac()
+        .withProcessors(new CodecovProcessor())
+        .withOptions("-Acodecov.file=" + copy.toString())
+        .compile(getSource("pkg/package-info.java"));
+    CompilationSubject.assertThat(compile).succeededWithoutWarnings();
+    assertFileEqual(expect, copy);
   }
 
   public static Path getOriginFile(String name) throws IOException {

@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -16,6 +17,7 @@ import javax.annotation.processing.SupportedOptions;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.NestingKind;
 import javax.lang.model.element.TypeElement;
 
@@ -28,7 +30,7 @@ import xdean.annotation.processor.toolkit.annotation.SupportedAnnotation;
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotation(CodecovIgnore.class)
-@SupportedOptions({CodecovProcessor.FILE_KEY, CodecovProcessor.CHARSET_KEY, CodecovProcessor.SOURCE_FOLDER_KEY})
+@SupportedOptions({ CodecovProcessor.FILE_KEY, CodecovProcessor.CHARSET_KEY, CodecovProcessor.SOURCE_FOLDER_KEY })
 public class CodecovProcessor extends XAbstractProcessor {
 
   public static final String FILE_KEY = "codecov.file";
@@ -67,6 +69,8 @@ public class CodecovProcessor extends XAbstractProcessor {
     List<String> lines = Files.readAllLines(codecovPath,
         Charset.forName(processingEnv.getOptions().getOrDefault(CHARSET_KEY, DEFAULT_CHARSET)));
     List<String> ignoreLines = ignores.stream()
+        .flatMap(e -> e.getKind() == ElementKind.PACKAGE ? e.getEnclosedElements().stream() : Stream.of(e))
+        .distinct()
         .filter(e -> e instanceof TypeElement)
         .map(e -> (TypeElement) e)
         .filter(te -> te.getNestingKind() == NestingKind.TOP_LEVEL)
