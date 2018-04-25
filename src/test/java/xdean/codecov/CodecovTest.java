@@ -34,7 +34,7 @@ public class CodecovTest {
         .withProcessors(new CodecovProcessor())
         .withOptions("-Acodecov.file=" + copy.toString())
         .compile(GOLDEN);
-    CompilationSubject.assertThat(compile).succeededWithoutWarnings();
+    CompilationSubject.assertThat(compile).succeeded();
     assertFileEqual(expect, copy);
   }
 
@@ -46,7 +46,7 @@ public class CodecovTest {
         .withProcessors(new CodecovProcessor())
         .withOptions("-Acodecov.file=" + copy.toString())
         .compile(GOLDEN);
-    CompilationSubject.assertThat(compile).succeededWithoutWarnings();
+    CompilationSubject.assertThat(compile).succeeded();
     assertFileEqual(expect, copy);
   }
 
@@ -58,7 +58,7 @@ public class CodecovTest {
         .withProcessors(new CodecovProcessor())
         .withOptions("-Acodecov.file=" + copy.toString())
         .compile(GOLDEN);
-    CompilationSubject.assertThat(compile).succeededWithoutWarnings();
+    CompilationSubject.assertThat(compile).succeeded();
     assertFileEqual(expect, copy);
   }
 
@@ -68,7 +68,7 @@ public class CodecovTest {
         .withProcessors(new CodecovProcessor())
         .withOptions("-Acodecov.file=no_such_file")
         .compile(GOLDEN);
-    CompilationSubject.assertThat(compile).hadWarningCount(1);
+    CompilationSubject.assertThat(compile).hadWarningCount(2);
   }
 
   @Test
@@ -79,7 +79,7 @@ public class CodecovTest {
         .withProcessors(new CodecovProcessor())
         .withOptions("-Acodecov.file=" + copy.toString())
         .compile(GOLDEN, getSource("AnotherOne.java"));
-    CompilationSubject.assertThat(compile).succeededWithoutWarnings();
+    CompilationSubject.assertThat(compile).succeeded();
     assertFileEqual(expect, copy);
   }
 
@@ -101,7 +101,7 @@ public class CodecovTest {
         .withProcessors(new CodecovProcessor())
         .withOptions("-Acodecov.file=" + copy.toString())
         .compile(getSource("pkg/package-info.java"));
-    CompilationSubject.assertThat(compile).succeededWithoutWarnings();
+    CompilationSubject.assertThat(compile).succeeded();
     assertFileEqual(expect, copy);
   }
 
